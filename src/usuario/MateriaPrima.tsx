@@ -62,16 +62,14 @@
 
 // src/components/MateriasPrimas.tsx
 import React from 'react';
-import { BeakerIcon, CloudIcon } from '@heroicons/react/24/outline'; // Asegúrate de importar los iconos correctos
+import { BeakerIcon, CloudIcon } from '@heroicons/react/24/outline';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import WaterTank from '../pages/ContenedorAgua';
 import FertilizerTank from '../pages/ContenedorFertilizante';
-import GuanabanaPlant from '../pages/Planta';
 import Planta from "../images/plant.webp"
 
 const MateriasPrimas: React.FC = () => {
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 space-y-6">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
@@ -79,10 +77,12 @@ const MateriasPrimas: React.FC = () => {
           <CloudIcon className="h-6 w-6 text-blue-500 mr-2" />
           <div>
             <h3 className="text-lg font-medium text-gray-700">Suministro de Agua</h3>
-            <p className="text-gray-500">Descripción o cantidad de agua</p>
+            <p className="text-gray-500">Nivel actual: 30%</p>
           </div>
         </div>
-        <WaterTank level={100}/>
+        <div className="flex justify-center">
+          <WaterTank level={30}/>
+        </div>
       </div>
 
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
@@ -90,10 +90,12 @@ const MateriasPrimas: React.FC = () => {
           <BeakerIcon className="h-6 w-6 text-green-500 mr-2" />
           <div>
             <h3 className="text-lg font-medium text-gray-700">Suministro de Fertilizante</h3>
-            <p className="text-gray-500">Descripción o cantidad de fertilizante</p>
+            <p className="text-gray-500">Nivel actual: 100%</p>
           </div>
         </div>
-        <FertilizerTank level={100}/>
+        <div className="flex justify-center">
+          <FertilizerTank level={100}/>
+        </div>
       </div>
 
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
@@ -111,4 +113,3 @@ const MateriasPrimas: React.FC = () => {
 };
 
 export default MateriasPrimas;
-
