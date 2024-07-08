@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { NavLink,useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import guana from "../images/guanabana.png"
 import {
   faPowerOff,
-  faBicycle,
   faHandHoldingDroplet,
   faSignal,
   faBoxOpen,
@@ -24,21 +24,21 @@ const links: LinkItem[] = [
 ];
 
 const Dash: React.FC = () => {
-  const [loggedOut, setLoggedOut] = useState(false);
-  const navigate = useNavigate(); 
+  // const [loggedOut, setLoggedOut] = useState(false);
+  // const navigate = useNavigate(); 
 
-  const handleLogout = async () => {
-    setLoggedOut(true);
-    navigate('/')
-  }; 
+  // const handleLogout = async () => {
+  //   setLoggedOut(true);
+  //   navigate('/')
+  // }; 
 
   return (
     <nav className="rounded-md w-72 h-screen flex flex-col justify-between bg-gradient-to-b from-green-500 to-green-800 text-white">
       <div>
         <div className="flex justify-center py-10 shadow-sm pr-4">
-          <FontAwesomeIcon icon={faBicycle} className="h-14 w-14 text-white" />
+          <img src={guana} alt="Planta de Guanábana" className="h-14 w-14 text-white" />
           <div className="pl-2">
-            <p className="text-2xl font-bold">SafeCycle</p>
+            <p className="text-2xl font-bold">SourSop</p>
             <span className="text-xs block">DASHBOARD</span>
           </div>
         </div>
@@ -59,9 +59,9 @@ const Dash: React.FC = () => {
         <hr className="border-gray-200 w-full mb-5"/>
         <div>
           <FontAwesomeIcon icon={faPowerOff} className="h-6 w-6 mb-2" />
-          <button onClick={handleLogout} className="text-white hover:text-gray-200">
+          {/* <button onClick={handleLogout} className="text-white hover:text-gray-200">
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
     </nav>

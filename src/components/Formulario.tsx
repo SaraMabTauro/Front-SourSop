@@ -3,9 +3,9 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RadioGroup } from "@headlessui/react";
-import { CheckIcon, UserIcon, EnvelopeIcon, LockClosedIcon, PencilIcon } from '@heroicons/react/24/solid';
-import guana from "../pages/guanabana.png"
-import guanabana from "../pages/guanabana (1).png"
+import { CheckIcon, UserIcon, EnvelopeIcon, LockClosedIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import guana from "../images/guanabana.png"
+import guanabana from "../images/guanabana (1).png"
 import { Switch } from "@headlessui/react";
 
 interface Plan {
@@ -25,6 +25,7 @@ const CreateUserForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [agreed, setAgreed] = useState<boolean>(false);
+  const [user, setUser] = useState<string>("");
 
 
   const navigate = useNavigate();
@@ -96,7 +97,6 @@ const CreateUserForm: React.FC = () => {
 
   return (
     <div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
-      {/* Fondo existente */}
       <div
         className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
         aria-hidden="true"
@@ -172,6 +172,26 @@ const CreateUserForm: React.FC = () => {
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               />
               <PencilIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="user"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              Usuario:
+            </label>
+            <div className="relative mt-2.5">
+              <input
+                type="text"
+                name="user"
+                id="user"
+                autoComplete="username"
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                className="block w-full rounded-md border-0 px-3.5 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+              />
+              <UserPlusIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
             </div>
           </div>
           <div className="sm:col-span-2">

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import guana from "../pages/guanabana.png"
+import guana from "../images/guanabana.png"
 import { UserIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 
 const Login: React.FC = () => {
