@@ -1,71 +1,75 @@
-import React, { useState } from "react";
-import { NavLink,useNavigate } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import guana from "../images/guanabana.png"
+import guana from "../images/guanabana.png";
 import {
   faPowerOff,
   faHandHoldingDroplet,
-  faSignal,
+  faChartLine,
   faBoxOpen,
   faSeedling,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface LinkItem {
   name: string;
-  icon: any; 
+  icon: any;
   to: string;
 }
 
 const links: LinkItem[] = [
-  { name: "Fertilizante y Riego", icon: faHandHoldingDroplet, to: '/dash/ruta' },
-  { name: "Graficas", icon: faSignal, to: '/dash/graficas' },
-  { name: "Materia Prima", icon: faBoxOpen, to: '/dash/materia' },
+  { name: "Riego", icon: faHandHoldingDroplet, to: '/dash/ruta' },
+  { name: "Análisis", icon: faChartLine, to: '/dash/graficas' },
+  { name: "Inventario", icon: faBoxOpen, to: '/dash/materia' },
   { name: "Crecimiento", icon: faSeedling, to: '/dash/crecimiento'}
 ];
 
 const Dash: React.FC = () => {
-  // const [loggedOut, setLoggedOut] = useState(false);
-  // const navigate = useNavigate(); 
-
-  // const handleLogout = async () => {
-  //   setLoggedOut(true);
-  //   navigate('/')
-  // }; 
-
   return (
-    <nav className="rounded-md w-72 h-screen flex flex-col justify-between bg-gradient-to-b from-green-500 to-green-800 text-white">
-      <div>
-        <div className="flex justify-center py-10 shadow-sm pr-4">
-          <img src={guana} alt="Planta de Guanábana" className="h-14 w-14 text-white" />
-          <div className="pl-2">
-            <p className="text-2xl font-bold">SourSop</p>
-            <span className="text-xs block">DASHBOARD</span>
+    <div className="w-80 h-screen bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center p-4">
+      <nav className="w-full h-full bg-white bg-opacity-40 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-center py-8 px-6 bg-gradient-to-r from-green-400 to-emerald-500">
+            <img src={guana} alt="SourSop" className="h-16 w-16 mr-4 rounded-full shadow-lg" />
+            <div>
+              <h1 className="text-3xl font-bold text-white tracking-wider">SourSop</h1>
+              <span className="text-xs text-green-100 tracking-widest uppercase">Dashboard</span>
+            </div>
+          </div>
+          
+          <div className="flex-grow mt-8 px-4">
+            {links.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.to}
+                className={({ isActive }) => `
+                  flex items-center px-6 py-4 my-2 rounded-xl transition-all duration-300 ease-in-out
+                  ${isActive 
+                    ? "bg-green-500 text-white shadow-lg transform scale-105" 
+                    : "text-gray-700 hover:bg-white hover:bg-opacity-50 hover:shadow-md"
+                  }
+                `}
+              >
+                {({ isActive }) => (
+                  <>
+                    <FontAwesomeIcon icon={link.icon} className={`h-5 w-5 mr-4 ${isActive ? 'text-white' : 'text-green-500'}`} />
+                    <span className="text-sm font-medium">{link.name}</span>
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </div>
+          
+          <div className="mt-auto pb-8 px-4">
+            <hr className="border-green-200 my-6"/>
+            <button className="w-full px-6 py-3 bg-red-500 text-white rounded-xl text-sm font-medium transition-all duration-300 ease-in-out hover:bg-red-600 hover:shadow-lg flex items-center justify-center">
+              <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5 mr-3" />
+              Cerrar Sesión
+            </button>
           </div>
         </div>
-        <div className="pl-10 pt-10 space-y-8 flex-1">
-          {links.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.to}
-              className="flex space-x-4 items-center hover:text-gray-200 cursor-pointer"
-            >
-              <FontAwesomeIcon icon={link.icon} className="h-6 w-6" />
-              <span>{link.name}</span>
-            </NavLink>
-          ))}
-        </div>
-      </div>
-      <div className="flex flex-col items-center py-5 text-center">
-        <hr className="border-gray-200 w-full mb-5"/>
-        <div>
-          <FontAwesomeIcon icon={faPowerOff} className="h-6 w-6 mb-2" />
-          {/* <button onClick={handleLogout} className="text-white hover:text-gray-200">
-            Logout
-          </button> */}
-        </div>
-      </div>
-    </nav>
-  );  
+      </nav>
+    </div>
+  );
 };
 
 export default Dash;

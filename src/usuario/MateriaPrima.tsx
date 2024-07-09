@@ -90,11 +90,11 @@ const MateriasPrimas: React.FC = () => {
           <BeakerIcon className="h-6 w-6 text-green-500 mr-2" />
           <div>
             <h3 className="text-lg font-medium text-gray-700">Suministro de Fertilizante</h3>
-            <p className="text-gray-500">Nivel actual: 100%</p>
+            <p className="text-gray-500">Nivel actual: 0%</p>
           </div>
         </div>
         <div className="flex justify-center">
-          <FertilizerTank level={100}/>
+          <FertilizerTank level={32}/>
         </div>
       </div>
 
