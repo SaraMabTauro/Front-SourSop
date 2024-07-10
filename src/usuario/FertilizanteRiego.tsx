@@ -1,21 +1,76 @@
-// src/components/FertilizanteRiego.tsx
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const FertilizanteRiego: React.FC = () => {
+  const [riegoActivo, setRiegoActivo] = useState(false);
+  const [fertilizacionActiva, setFertilizacionActiva] = useState(false);
+
+  const toggleRiego = () => setRiegoActivo(!riegoActivo);
+  const toggleFertilizacion = () => setFertilizacionActiva(!fertilizacionActiva);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Control de Riego y Fertilización</h2>
-      <div className="flex space-x-4">
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg">
-          Controlar Riego
-          <p className="text-sm mt-2">Tiempo: 30 min</p>
-        </button>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg">
-          Controlar Fertilización
-          <p className="text-sm mt-2">Tiempo: 20 min</p>
-        </button>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-8">
+      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Control de Riego y Fertilización</h2>
+      <div className="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8">
+        <ControlCard
+          title="Control de Riego"
+          time={30}
+          isActive={riegoActivo}
+          toggleAction={toggleRiego}
+          activeColor="bg-green-500"
+          hoverColor="hover:bg-green-600"
+          icon="💧"
+        />
+        <ControlCard
+          title="Control de Fertilización"
+          time={20}
+          isActive={fertilizacionActiva}
+          toggleAction={toggleFertilizacion}
+          activeColor="bg-blue-500"
+          hoverColor="hover:bg-blue-600"
+          icon="🌱"
+        />
       </div>
     </div>
+  );
+};
+
+interface ControlCardProps {
+  title: string;
+  time: number;
+  isActive: boolean;
+  toggleAction: () => void;
+  activeColor: string;
+  hoverColor: string;
+  icon: string;
+}
+
+const ControlCard: React.FC<ControlCardProps> = ({
+  title,
+  time,
+  isActive,
+  toggleAction,
+  activeColor,
+  hoverColor,
+  icon,
+}) => {
+  return (
+    <motion.div
+      className={`bg-white rounded-xl shadow-lg p-6 w-full max-w-sm ${isActive ? activeColor : ''} transition-colors duration-300`}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <h3 className={`text-2xl font-semibold mb-4 ${isActive ? 'text-white' : 'text-gray-800'}`}>{title}</h3>
+      <div className={`text-6xl mb-4 ${isActive ? 'text-white' : 'text-gray-600'}`}>{icon}</div>
+      <p className={`text-lg mb-4 ${isActive ? 'text-white' : 'text-gray-600'}`}>Tiempo: {time} min</p>
+      <button
+        onClick={toggleAction}
+        className={`w-full py-3 px-6 rounded-lg font-bold text-white transition-colors duration-300
+          ${isActive ? 'bg-white text-gray-800 hover:bg-gray-200' : `${activeColor} ${hoverColor}`}`}
+      >
+        {isActive ? 'Detener' : 'Activar'}
+      </button>
+    </motion.div>
   );
 };
 

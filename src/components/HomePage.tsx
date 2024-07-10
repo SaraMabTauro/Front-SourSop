@@ -1,199 +1,100 @@
-// // src/components/HomePage.tsx
-// import React from 'react';
-// import { CloudIcon, BeakerIcon, AdjustmentsHorizontalIcon} from '@heroicons/react/24/outline'; 
-
-// const HomePage: React.FC = () => {
-//   return (
-//     <div className="min-h-screen bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white">
-//       <header className="p-6 text-center">
-//         <h1 className="text-4xl font-bold">Proyecto SourSop</h1>
-//         <p className="mt-4 text-lg">Fertilización y riego automatizado con sensado de cultivos</p>
-//       </header>
-
-//       <main className="flex flex-col items-center justify-center p-6">
-//         <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6 text-lime-800">
-//           <h2 className="text-2xl font-semibold text-center mb-6">Características del Proyecto</h2>
-//           <div className="flex items-center mb-4">
-//             <CloudIcon className="h-8 w-8 text-blue-500 mr-3" />
-//             <div>
-//               <h3 className="text-xl font-medium">Riego Automatizado</h3>
-//               <p className="text-gray-600">Sistema de riego controlado automáticamente para optimizar el uso del agua.</p>
-//             </div>
-//           </div>
-//           <div className="flex items-center mb-4">
-//             <BeakerIcon className="h-8 w-8 text-green-500 mr-3" />
-//             <div>
-//               <h3 className="text-xl font-medium">Fertilización Inteligente</h3>
-//               <p className="text-gray-600">Distribución precisa de fertilizantes basada en las necesidades del cultivo.</p>
-//             </div>
-//           </div>
-//           <div className="flex items-center">
-//             <AdjustmentsHorizontalIcon className="h-8 w-8 text-yellow-500 mr-3" />
-//             <div>
-//               <h3 className="text-xl font-medium">Sensores en el Cultivo</h3>
-//               <p className="text-gray-600">Monitoreo en tiempo real del estado de las plantas y el entorno.</p>
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-
-//       <footer className="p-6 text-center">
-//         <p>© 2024 Proyecto SourSop. Todos los derechos reservados.</p>
-//       </footer>
-//     </div>
-//   );
-// };
-
-// export default HomePage;
-
-
 import React from 'react';
-import { CloudIcon, BeakerIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDroplet, faInfo, faSackXmark } from "@fortawesome/free-solid-svg-icons";
-import Agua from "../images/aguaDrop.jpg";
-import Foto from "../images/img5.jpg";
-import Venturi from "../images/venturi.jpg";
-import fondo from "../images/findo3.jpg"
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { CloudIcon, BeakerIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
 const HomePage: React.FC = () => {
-
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    navigate('/formulario')
-  }
-
-  const handleButtonLogin = () => {
-    navigate('/login')
-  }
+  const handleButtonClick = (path: string) => {
+    navigate(path);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-400 via-teal-300 to-green-600 text-white">
-      <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
-        <img
-          src={fondo}
-          alt=""
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-right md:object-center"
-        />
-        <div className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl" aria-hidden="true">
-          <div
-            className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20"
-            style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}
-          />
-        </div>
-        <div className="absolute -top-52 left-1/2 -z-10 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu" aria-hidden="true">
-          <div
-            className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20"
-            style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">SourSop es la mejor solución</h2>
-            <p className="mt-6 text-lg leading-8 text-teal-700">Fertilización y riego automatizado con sensado de cultivos.</p>
-          </div>
-          <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
-              <button onClick={handleButtonLogin} className="bg-gradient-to-r from-sky-700 via-teal-300 to-lime-600 text-white py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gradient-to-r hover:from-cyan-700 hover:via-blue-300 hover:to-lime-400">
-                Inicia Sesión <span aria-hidden="true">&rarr;</span>
+    <div className="min-h-screen bg-gradient-to-br from-green-400 via-green-500 to-emerald-600">
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center text-white mb-16"
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-4">SourSop</h1>
+          <p className="text-xl md:text-2xl">La revolución en el cultivo automatizado</p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Optimiza tu cultivo con tecnología de punta</h2>
+            <p className="text-lg text-white mb-8">Fertilización y riego automatizado con sensado inteligente para maximizar tu producción de guanábana.</p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => handleButtonClick('/login')}
+                className="bg-white text-green-600 font-bold py-3 px-6 rounded-full hover:bg-green-100 transition duration-300"
+              >
+                Inicia Sesión
               </button>
-              <button onClick={handleButtonClick} className='bg-gradient-to-r from-green-400 via-teal-300 to-green-600 text-white py-2 px-4 rounded-lg transition-all duration-300 hover:bg-gradient-to-r hover:from-teal-300 hover:via-green-400 hover:to-teal-600'>Crea tu cuenta <span aria-hidden="true">&rarr;</span></button>
+              <button
+                onClick={() => handleButtonClick('/registro')}
+                className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-full hover:bg-white hover:text-green-600 transition duration-300"
+              >
+                Regístrate
+              </button>
             </div>
-            <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex flex-col-reverse">
-                <dt className="text-base leading-7 text-cyan-800">Piezas incluyen el kit</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">6</dd>
-              </div>
-              <div className="flex flex-col-reverse">
-                <dt className="text-base leading-7 text-cyan-800">Prioriza tu cultivo</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">Preciso</dd>
-              </div>
-              <div className="flex flex-col-reverse">
-                <dt className="text-base leading-7 text-cyan-800">Los componentes son portátiles</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">Práctico</dd>
-              </div>
-              <div className="flex flex-col-reverse">
-                <dt className="text-base leading-7 text-cyan-800">Resistente a todas condiciones</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">Durable</dd>
-              </div>
-            </dl>
-          </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="hidden md:block"
+          >
+            {/* Reemplazo de la imagen por un componente SVG o icono */}
+            <div className="bg-white p-8 rounded-3xl shadow-2xl">
+              <svg className="w-full h-64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#10B981" d="M45,-52.9C57.4,-42.8,66.1,-27.9,69.9,-11.2C73.7,5.5,72.5,24,63.7,37.7C54.9,51.4,38.5,60.3,21.2,65.6C3.9,70.9,-14.2,72.6,-30.1,67C-45.9,61.4,-59.5,48.5,-67.3,32.6C-75.1,16.7,-77.1,-2.2,-71.4,-18.1C-65.8,-33.9,-52.4,-46.7,-38.1,-56.4C-23.8,-66.1,-8.6,-72.8,4.2,-77.8C17,-82.8,32.6,-86.1,45,-52.9Z" transform="translate(100 100)" />
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold">SourSop</text>
+              </svg>
+            </div>
+          </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="grid md:grid-cols-3 gap-8 text-white"
+        >
+          <FeatureCard
+            icon={<CloudIcon className="h-12 w-12" />}
+            title="Riego Inteligente"
+            description="Optimiza el uso del agua con nuestro sistema de riego automatizado."
+          />
+          <FeatureCard
+            icon={<BeakerIcon className="h-12 w-12" />}
+            title="Fertilización Precisa"
+            description="Distribuye los nutrientes de manera eficiente según las necesidades del cultivo."
+          />
+          <FeatureCard
+            icon={<ChartBarIcon className="h-12 w-12" />}
+            title="Monitoreo en Tiempo Real"
+            description="Obtén datos precisos del estado de tus plantas y el entorno."
+          />
+        </motion.div>
       </div>
-      <main className="flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6 text-lime-800">
-          <h2 className="text-2xl font-semibold text-center mb-6">Características:</h2>
-          <div className="flex items-center mb-4">
-            <CloudIcon className="h-8 w-8 text-blue-500 mr-3" />
-            <div>
-              <h3 className="text-xl font-medium">Riego Automatizado</h3>
-              <p className="text-gray-600">Sistema de riego controlado automáticamente para optimizar el uso del agua.</p>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <BeakerIcon className="h-8 w-8 text-green-500 mr-3" />
-            <div>
-              <h3 className="text-xl font-medium">Fertilización Inteligente</h3>
-              <p className="text-gray-600">Distribución precisa de fertilizantes basada en las necesidades del cultivo.</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <AdjustmentsHorizontalIcon className="h-8 w-8 text-yellow-500 mr-3" />
-            <div>
-              <h3 className="text-xl font-medium">Sensores en el Cultivo</h3>
-              <p className="text-gray-600">Monitoreo en tiempo real del estado de las plantas y el entorno.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full max-w-3xl text-lime-800 mt-6">
-          <h2 className="text-2xl font-semibold text-center mb-6">Información sobre el Cultivo de Guanábana</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-lg shadow-lg p-4 flex items-center">
-              <img src={Foto} alt="Guanabana" className="w-24 h-24 rounded-lg mr-4" />
-              <div>
-                <div className="flex items-center mb-2">
-                  <FontAwesomeIcon icon={faInfo} className="h-6 w-6 text-blue-500 mr-2" />
-                  <h3 className="text-xl font-medium">Requerimientos del Cultivo</h3>
-                </div>
-                <p className="text-gray-600">La guanábana requiere un clima tropical y suelos bien drenados. Necesita riego regular y una fertilización adecuada para un crecimiento óptimo.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-4 flex items-center">
-              <img src={Agua} alt="Riego por Goteo" className="w-24 h-24 rounded-lg mr-4" />
-              <div>
-                <div className="flex items-center mb-2">
-                  <FontAwesomeIcon icon={faDroplet} className="h-6 w-6 text-green-500 mr-2" />
-                  <h3 className="text-xl font-medium">Sistema de Riego por Goteo</h3>
-                </div>
-                <p className="text-gray-600">El riego por goteo es un método eficiente que entrega agua directamente a las raíces de las plantas, reduciendo el desperdicio de agua y asegurando una distribución uniforme.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-4 flex items-center">
-              <img src={Venturi} alt="Sistema Venturi" className="w-24 h-24 rounded-lg mr-4" />
-              <div>
-                <div className="flex items-center mb-2">
-                  <FontAwesomeIcon icon={faSackXmark} className="h-6 w-6 text-yellow-500 mr-2" />
-                  <h3 className="text-xl font-medium">Aplicación de Fertilizante con Sistema Venturi</h3>
-                </div>
-                <p className="text-gray-600">El sistema Venturi permite la inyección de fertilizantes en el sistema de riego, proporcionando nutrientes directamente a las raíces de las plantas. Esto asegura una alimentación precisa y eficiente.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-
-
-      <footer className="p-6 text-center">
-        <p>© 2024 Proyecto SourSop. Todos los derechos reservados.</p>
-      </footer>
     </div>
   );
 };
 
+const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string }> = ({ icon, title, description }) => (
+  <div className="bg-white bg-opacity-20 p-6 rounded-xl backdrop-blur-lg">
+    <div className="text-green-300 mb-4">{icon}</div>
+    <h3 className="text-xl font-bold mb-2">{title}</h3>
+    <p>{description}</p>
+  </div>
+);
+
 export default HomePage;
-
-
