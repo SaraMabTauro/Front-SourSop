@@ -2,6 +2,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
+import Principal from '../pages/Principal';
 
 const data = [
   { semana: '1', altura: 100 },

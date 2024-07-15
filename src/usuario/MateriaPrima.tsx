@@ -98,7 +98,7 @@ const MateriasPrimas: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+      {/* <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="flex items-center">
           <FontAwesomeIcon icon={faLeaf} className="h-6 w-6 text-yellow-500 mr-2" />
           <div>
@@ -107,7 +107,7 @@ const MateriasPrimas: React.FC = () => {
           </div>
           <img src={Planta} alt="Planta de Guanábana" className="w-1/3 h-auto mx-2" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

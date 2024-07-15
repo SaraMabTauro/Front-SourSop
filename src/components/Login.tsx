@@ -1,11 +1,23 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import guana from "../images/guanabana.png"
 import { UserIcon, LockClosedIcon } from '@heroicons/react/24/solid';
+import { useAuth } from '../context/AuthProvider';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const user = {_id: '1', email: email};
+    login(user);
+    navigate('/dash')
+  }
 
   const handleFormulario = () => {
     navigate('/formulario');
@@ -22,6 +34,7 @@ const Login: React.FC = () => {
       <div className="relative z-10 bg-green-200 p-10 rounded-lg shadow-2xl">
         <img src={guana} className="mx-auto h-16 w-16 mb-4 animate-pulse" />
         <h2 className="text-3xl text-green-800 text-center mb-8 font-semibold">SourSop</h2>
+        <form onSubmit={handleLogin}>
         <div className="mb-4">
           <label className="block text-green-800 text-sm mb-2 font-semibold" htmlFor="username">
             Usuario:
@@ -32,6 +45,8 @@ const Login: React.FC = () => {
               id="username"
               type="text"
               placeholder="Username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <UserIcon className="absolute mt-2 h-5 w-5 text-green-400 ml-2" />
           </div>
@@ -47,6 +62,8 @@ const Login: React.FC = () => {
               id="password"
               type="password"
               placeholder="******"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <LockClosedIcon className="absolute mt-2 h-5 w-5 text-green-400 ml-2" />
 
@@ -69,7 +86,9 @@ const Login: React.FC = () => {
             ¡Empieza Ya!
           </button>
         </p>
+        </form>
       </div>
+      
     </div>
   );
 }

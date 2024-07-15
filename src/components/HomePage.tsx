@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
                 Inicia Sesión
               </button>
               <button
-                onClick={() => handleButtonClick('/registro')}
+                onClick={() => handleButtonClick('/formulario')}
                 className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-full hover:bg-white hover:text-green-600 transition duration-300"
               >
                 Regístrate

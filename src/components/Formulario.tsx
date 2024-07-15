@@ -234,7 +234,7 @@ const CreateUserForm: React.FC = () => {
               <LockClosedIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
             </div>
           </div>
-          <div className="sm:col-span-2">
+          {/* <div className="sm:col-span-2">
             <div className="w-full px-4 py-16">
               <div className="mx-auto w-full max-w-md">
                 <RadioGroup value={selectedPlan} onChange={setSelectedPlan}>
@@ -281,8 +281,8 @@ const CreateUserForm: React.FC = () => {
                 </RadioGroup>
               </div>
             </div>
-          </div>
-        </div>
+          </div>*/}
+        </div> 
        
         <div className="mt-10">
           <button
