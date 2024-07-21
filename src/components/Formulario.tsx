@@ -2,45 +2,21 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { RadioGroup } from "@headlessui/react";
-import { CheckIcon, UserIcon, EnvelopeIcon, LockClosedIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import { UserIcon, EnvelopeIcon, LockClosedIcon, PencilIcon } from '@heroicons/react/24/solid';
 import guana from "../images/guanabana.png"
 import guanabana from "../images/guanabana (1).png"
-import { Switch } from "@headlessui/react";
-
-interface Plan {
-  name: string;
-}
-
-const plans = [
-  { name: "Estudiante" },
-  { name: "Profesional" },
-  { name: "Corporativo" },
-];
 
 const CreateUserForm: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [agreed, setAgreed] = useState<boolean>(false);
-  const [user, setUser] = useState<string>("");
 
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-
-    if (!selectedPlan) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, selecciona un plan para continuar",
-      });
-      return;
-    }
 
     if (!name || !surname || !email || !password) {
       Swal.fire({
@@ -51,36 +27,27 @@ const CreateUserForm: React.FC = () => {
       return;
     }
 
-    if (!agreed) {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Debes aceptar las políticas de seguridad para continuar",
-            });
-            return;
-          }
-      
-
     try {
       const userData = {
-        name,
-        surname,
-        email,
-        password,
-        ocupacion: selectedPlan.name,
+        nombre: name,
+        apellidos: surname,
+        correo: email,
+        contraseña: password,
       };
 
-      const response = await axios.post("http://3.218.205.205/api/users", userData);
+      const response = await axios.post("http://127.0.0.1:5000/auth/register", userData);
 
       console.log("Response:", response.data);
 
-      Swal.fire({
-        icon: "success",
-        title: "¡Cuenta creada exitosamente!",
-        text: "Gracias por registrarte en SafeCycle.",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      if(response.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Cuenta creada exitosamente!",
+          text: "Gracias por registrarte en SourSop.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
 
       setTimeout(() => {
         navigate("/login");
@@ -174,26 +141,6 @@ const CreateUserForm: React.FC = () => {
               <PencilIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
             </div>
           </div>
-          <div>
-            <label
-              htmlFor="user"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
-              Usuario:
-            </label>
-            <div className="relative mt-2.5">
-              <input
-                type="text"
-                name="user"
-                id="user"
-                autoComplete="username"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-                className="block w-full rounded-md border-0 px-3.5 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              />
-              <UserPlusIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
-            </div>
-          </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="email"
@@ -234,54 +181,6 @@ const CreateUserForm: React.FC = () => {
               <LockClosedIcon className="absolute top-3 left-3 h-5 w-5 text-green-400" />
             </div>
           </div>
-          {/* <div className="sm:col-span-2">
-            <div className="w-full px-4 py-16">
-              <div className="mx-auto w-full max-w-md">
-                <RadioGroup value={selectedPlan} onChange={setSelectedPlan}>
-                  <RadioGroup.Label className="sr-only">Selecciona tu plan:</RadioGroup.Label>
-                  <div className="space-y-2">
-                    {plans.map((plan) => (
-                      <RadioGroup.Option
-                        key={plan.name}
-                        value={plan}
-                        className={({ active, checked }) =>
-                          `relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none ${
-                            active ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-green-300' : ''
-                          } ${
-                            checked ? 'bg-green-700 bg-opacity-75 text-white' : 'bg-white'
-                          }`
-                        }
-                      >
-                        {({ checked }) => (
-                          <>
-                            <div className="flex w-full items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="text-sm">
-                                  <RadioGroup.Label
-                                    as="p"
-                                    className={`font-medium  ${
-                                      checked ? 'text-white' : 'text-gray-900'
-                                    }`}
-                                  >
-                                    {plan.name}
-                                  </RadioGroup.Label>
-                                </div>
-                              </div>
-                              {checked && (
-                                <div className="shrink-0 text-white">
-                                  <CheckIcon className="h-6 w-6" />
-                                </div>
-                              )}
-                            </div>
-                          </>
-                        )}
-                      </RadioGroup.Option>
-                    ))}
-                  </div>
-                </RadioGroup>
-              </div>
-            </div>
-          </div>*/}
         </div> 
        
         <div className="mt-10">

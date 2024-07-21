@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import guana from "../images/guanabana.png"
 import { UserIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '../context/AuthProvider';
@@ -8,15 +10,49 @@ import { useAuth } from '../context/AuthProvider';
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [contraseña, setContraseña] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const user = {_id: '1', email: email};
-    login(user);
-    navigate('/dash')
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/auth/login',{
+        correo: correo,
+        contraseña: contraseña
+      });
+
+      if (response.status === 200) {
+        const { token, usuario } = response.data;
+
+        const user = {
+          _id: usuario.id,
+          correo: usuario.email,
+          nombre: usuario.nombre,
+          apellidos: usuario.apellidos
+        }
+
+        login(user);
+        localStorage.setItem('token', token);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión exitoso',
+          text: `Bienvenido, ${user.nombre}!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        navigate('/dash');
+      }
+    } catch (error) {
+      console.error('Error en inicio de sesion', error);
+      Swal.fire({
+        icon: 'error',
+        title:'Error en inicio de sesion',
+        text: 'Credenciales inválidas. Por favor, intente de nuevo',
+      });
+    }
   }
 
   const handleFormulario = () => {
@@ -45,8 +81,8 @@ const Login: React.FC = () => {
               id="username"
               type="text"
               placeholder="Username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
             />
             <UserIcon className="absolute mt-2 h-5 w-5 text-green-400 ml-2" />
           </div>
@@ -62,8 +98,8 @@ const Login: React.FC = () => {
               id="password"
               type="password"
               placeholder="******"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
             />
             <LockClosedIcon className="absolute mt-2 h-5 w-5 text-green-400 ml-2" />
 
@@ -72,11 +108,13 @@ const Login: React.FC = () => {
         <div className="flex w-full items-center justify-center">
           <button
             className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-500"
-            type="button"
+            type="submit"
           >
             Iniciar Sesión
           </button>
         </div>
+        
+        </form>
         <p className="mt-3 text-center text-sm text-gray-500 transition-all duration-500">
           ¿No eres miembro?{" "}
           <button
@@ -86,7 +124,6 @@ const Login: React.FC = () => {
             ¡Empieza Ya!
           </button>
         </p>
-        </form>
       </div>
       
     </div>

@@ -3,8 +3,9 @@ import React, { createContext, useState, useContext } from "react";
 // Define el tipo de los datos del usuario
 type User = {
   _id: string;
-  email: string;
-  // Otras propiedades del usuario según sea necesario
+  correo: string;
+  nombre: string;
+  apellidos: string;
 };
 
 // Define el tipo del contexto

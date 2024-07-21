@@ -5,7 +5,25 @@ const FertilizanteRiego: React.FC = () => {
   const [riegoActivo, setRiegoActivo] = useState(false);
   const [fertilizacionActiva, setFertilizacionActiva] = useState(false);
 
-  const toggleRiego = () => setRiegoActivo(!riegoActivo);
+  const toggleRiego = async () => {
+    try {
+      const response = await fetch('http://localhost:3080/api/riego', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ state: !riegoActivo }),
+      });
+      const data = await response.json();
+      if (data.ison !== undefined) {
+        setRiegoActivo(data.ison);
+      }
+    } catch (error) {
+      console.error('Error al controlar el riego:', error);
+    }
+  };
+
+
   const toggleFertilizacion = () => setFertilizacionActiva(!fertilizacionActiva);
 
   return (

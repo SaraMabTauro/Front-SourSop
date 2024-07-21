@@ -1,16 +1,21 @@
 // src/components/Principal.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaLeaf, FaTint, FaChartLine, FaClipboardList } from 'react-icons/fa';
+import { useAuth } from '../context/AuthProvider';
 
 const Index: React.FC = () => {
-  // Aquí podrías obtener el nombre del usuario desde tu estado global o contexto
-  const nombreUsuario = "Usuario";
+  
+  const {user} = useAuth();
+
+  useEffect(() => {
+    console.log('Usuario:', user);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 to-blue-100 p-8">
       <h1 className="text-4xl font-bold text-green-800 mb-6">
-        Bienvenido, {nombreUsuario}
+        Bienvenido, {user ? user.nombre : 'Usuario'}
       </h1>
       
       <div className="bg-white rounded-xl shadow-xl p-6 mb-8">
