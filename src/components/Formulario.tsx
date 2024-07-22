@@ -12,7 +12,6 @@ const CreateUserForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -35,8 +34,7 @@ const CreateUserForm: React.FC = () => {
         contraseña: password,
       };
 
-      const response = await axios.post("http://127.0.0.1:5000/auth/register", userData);
-
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register` || 'http://127.0.0.1:5000', userData);
       console.log("Response:", response.data);
 
       if(response.status === 201) {

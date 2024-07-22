@@ -12,9 +12,9 @@ const MateriasPrimas: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const socket = io('http://tu-servidor-socket-io.com', {
-      auth: {
-        token: token
+    const socket = io(process.env.REACT_APP_SOCKET_IO_API as string, {
+      extraHeaders: {
+        Authorization: `Bearer ${token}`
       }
     });
 
@@ -22,11 +22,11 @@ const MateriasPrimas: React.FC = () => {
       console.log('Conexión Socket.IO establecida');
     });
 
-    socket.on('water_level', (level) => {
+    socket.on('nivelAgua', (level) => {
       setWaterLevel(level);
     });
 
-    socket.on('fertilizer_level', (level) => {
+    socket.on('nivelFertilizante', (level) => {
       setFertilizerLevel(level);
     });
 
