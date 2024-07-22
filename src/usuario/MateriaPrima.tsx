@@ -40,9 +40,9 @@ const MateriasPrimas: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="flex flex-row space-x-6"> {/* Cambiado a flex-row y añadido space-x-6 */}
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+        <div className="w-full bg-white rounded-lg shadow-lg p-6">
           <div className="flex items-center mb-4">
             <CloudIcon className="h-6 w-6 text-blue-500 mr-2" />
             <div>
@@ -55,7 +55,7 @@ const MateriasPrimas: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <div className="w-full bg-white rounded-lg shadow-lg p-6">
           <div className="flex items-center mb-4">
             <BeakerIcon className="h-6 w-6 text-green-500 mr-2" />
             <div>

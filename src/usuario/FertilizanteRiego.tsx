@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const FertilizanteRiego: React.FC = () => {
   const [riegoActivo, setRiegoActivo] = useState(false);
-  const [fertilizacionActiva, setFertilizacionActiva] = useState(false);
+  //const [fertilizacionActiva, setFertilizacionActiva] = useState(false);
 
   const toggleRiego = async () => {
     try {
@@ -24,7 +24,7 @@ const FertilizanteRiego: React.FC = () => {
   };
 
 
-  const toggleFertilizacion = () => setFertilizacionActiva(!fertilizacionActiva);
+  //const toggleFertilizacion = () => setFertilizacionActiva(!fertilizacionActiva);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-8">
@@ -39,7 +39,7 @@ const FertilizanteRiego: React.FC = () => {
           hoverColor="hover:bg-green-600"
           icon="💧"
         />
-        <ControlCard
+        {/* <ControlCard
           title="Control de Fertilización"
           time={20}
           isActive={fertilizacionActiva}
@@ -47,7 +47,7 @@ const FertilizanteRiego: React.FC = () => {
           activeColor="bg-blue-500"
           hoverColor="hover:bg-blue-600"
           icon="🌱"
-        />
+        /> */}
       </div>
     </div>
   );

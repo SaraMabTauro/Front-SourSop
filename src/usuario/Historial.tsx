@@ -1,5 +1,6 @@
 // src/components/Historial.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaCalendarAlt, FaSearch } from 'react-icons/fa';
 
 interface Medicion {
@@ -15,68 +16,30 @@ interface Medicion {
   fertilizanteConsumido: number;
 }
 
-const medicionesMock: Medicion[] = [
-  {
-    id: 1,
-    fecha: '2024-07-10',
-    pH: 6.5,
-    humedad: 65,
-    temperatura: 25,
-    potasio: 200,
-    nitrogeno: 150,
-    conductividad: 1.2,
-    aguaConsumida: 2.5,
-    fertilizanteConsumido: 50,
-  },
-  {
-    id: 2,
-    fecha: '2024-07-11',
-    pH: 7.8,
-    humedad: 68,
-    temperatura: 30,
-    potasio: 230,
-    nitrogeno: 160,
-    conductividad: 1.5,
-    aguaConsumida: 3.5,
-    fertilizanteConsumido: 0,
-  },
-  {
-    id: 3,
-    fecha: '2024-07-12',
-    pH: 6.5,
-    humedad: 65,
-    temperatura: 25,
-    potasio: 200,
-    nitrogeno: 150,
-    conductividad: 1.2,
-    aguaConsumida: 2.5,
-    fertilizanteConsumido: 50,
-  },
-  {
-    id: 4,
-    fecha: '2024-08-12',
-    pH: 6.5,
-    humedad: 65,
-    temperatura: 25,
-    potasio: 200,
-    nitrogeno: 150,
-    conductividad: 1.2,
-    aguaConsumida: 2.5,
-    fertilizanteConsumido: 50,
-  },
-  
-  // Agrega más mediciones de ejemplo aquí
-];
-
 const Historial: React.FC = () => {
   const [busqueda, setBusqueda] = useState('');
-  const [medicionesFiltradas, setMedicionesFiltradas] = useState(medicionesMock);
+  const [mediciones, setMediciones] = useState<Medicion[]>([]);
+  const [medicionesFiltradas, setMedicionesFiltradas] = useState<Medicion[]>([]);
+
+  useEffect(() => {
+    const fetchMediciones = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/path-to-your-api`);
+        setMediciones(response.data);
+        setMedicionesFiltradas(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchMediciones();
+  }, []);
 
   const handleBusqueda = (e: React.ChangeEvent<HTMLInputElement>) => {
     const terminoBusqueda = e.target.value.toLowerCase();
     setBusqueda(terminoBusqueda);
     
-    const filtradas = medicionesMock.filter(medicion => 
+    const filtradas = mediciones.filter(medicion => 
       medicion.fecha.toLowerCase().includes(terminoBusqueda)
     );
     setMedicionesFiltradas(filtradas);

@@ -24,7 +24,6 @@ const Index: React.FC = () => {
           <StatCard icon={<FaLeaf />} title="Plantas Activas" value="24" />
           <StatCard icon={<FaTint />} title="Último Riego" value="Hace 2 horas" />
           <StatCard icon={<FaChartLine />} title="Crecimiento Promedio" value="2.5 cm/semana" />
-          <StatCard icon={<FaClipboardList />} title="Tareas Pendientes" value="3" />
         </div>
       </div>
       

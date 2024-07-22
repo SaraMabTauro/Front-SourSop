@@ -51,12 +51,20 @@ const CreateUserForm: React.FC = () => {
         navigate("/login");
       }, 2000);
     } catch (error) {
-      console.error("Error", error);
+      if (axios.isAxiosError(error) && error.response){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.mensaje,
+        });
+      } else {
+        console.error("Error", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde",
       });
+      }
     }
   };
 
