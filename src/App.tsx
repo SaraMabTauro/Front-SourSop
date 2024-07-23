@@ -67,6 +67,7 @@ import Layout from './layout/Layout';
 import Page404 from './pages/Page404';
 import Historial from './usuario/Historial';
 import Index from './pages/Index';
+import Socket from './socket'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
@@ -84,6 +85,9 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/formulario" element={<Formulario />} />
+          <Route path="/soc" element={<Socket />} />
+
+
           <Route path="/homePage" element={<HomePage />} />
 
           <Route

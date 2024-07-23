@@ -1,11 +1,9 @@
-// src/components/Principal.tsx
 import React, { useEffect, useState } from 'react';
 import { FaThermometerHalf, FaTint, FaCloudscale, FaBolt, FaWater } from 'react-icons/fa';
 import { io } from 'socket.io-client';
 
 const Principal: React.FC = () => {
-
-  const [sensorData, setSensorData] = useState<Record<string, string | null >>({
+  const [sensorData, setSensorData] = useState<Record<string, string | number | null>>({
     humedad: null,
     temperatura: null,
     conductividad: null,
@@ -15,7 +13,7 @@ const Principal: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log('Token del usuario:', token); 
+    console.log('Token del usuario:', token);
     const socket = io(process.env.REACT_APP_SOCKET_IO_API || 'http://localhost:3005', {
       extraHeaders: {
         Authorization: `Bearer ${token}`
@@ -26,7 +24,7 @@ const Principal: React.FC = () => {
       console.log('Conexión Socket.IO establecida');
     });
 
-    socket.on('ph', (data) => {
+    socket.on('ph', (data: { humedad: number; temperatura: number; conductividad: number }) => {
       console.log('Datos recibidos del evento ph:', data);
       setSensorData(prevData => ({
         ...prevData,
@@ -36,12 +34,12 @@ const Principal: React.FC = () => {
       }));
     });
 
-    socket.on('flujoAgua', (data) => {
+    socket.on('flujoAgua', (data: { litrosPorMinuto: number; totalConsumido?: number }) => {
       console.log('Datos recibidos del evento flujoAgua:', data);
       setSensorData(prevData => ({
         ...prevData,
-        aguaConsumida: data.aguaConsumida,
         litrosPorMinuto: data.litrosPorMinuto,
+        aguaConsumida: data.totalConsumido !== undefined ? data.totalConsumido : prevData.aguaConsumida,
       }));
     });
 
@@ -54,18 +52,18 @@ const Principal: React.FC = () => {
     };
   }, []);
 
+  // Verifica el estado actual del sensorData
+  console.log('Estado actual del sensorData:', sensorData);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-100 to-blue-100 p-4">
       <h2 className="text-3xl font-bold text-green-800 mb-8">Monitoreo de Planta de Guanábana</h2>
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* <ParameterCard icon={<FaVial />} title="pH" value={sensorData.pH} unit="" /> */}
         <ParameterCard icon={<FaTint />} title="Humedad" value={sensorData.humedad} unit="%" />
         <ParameterCard icon={<FaThermometerHalf />} title="Temperatura" value={sensorData.temperatura} unit="°C" />
-        {/* <ParameterCard icon={<FaLeaf />} title="Potasio" value={sensorData.potasio} unit="ppm" /> */}
-        {/* <ParameterCard icon={<FaLeaf />} title="Nitrógeno" value={sensorData.nitrogeno} unit="ppm" /> */}
         <ParameterCard icon={<FaBolt />} title="Conductividad" value={sensorData.conductividad} unit="mS/cm" />
         <ParameterCard icon={<FaWater />} title="Agua Consumida" value={sensorData.aguaConsumida} unit="L" />
-        <ParameterCard icon={<FaCloudscale />} title="Litros por minuto" value={sensorData.litrosPorMinuto} unit="mL" />
+        <ParameterCard icon={<FaCloudscale />} title="Litros por minuto" value={sensorData.litrosPorMinuto} unit="L/min" />
       </div>
     </div>
   );
@@ -74,7 +72,7 @@ const Principal: React.FC = () => {
 interface ParameterCardProps {
   icon: React.ReactNode;
   title: string;
-  value: string | null;
+  value: string | number | null;
   unit: string;
 }
 
@@ -88,7 +86,7 @@ const ParameterCard: React.FC<ParameterCardProps> = ({ icon, title, value, unit 
           <>
             {value} <span className="text-sm font-normal text-gray-600">{unit}</span>
           </>
-        ): (
+        ) : (
           <span className="text-sm font-normal text-gray-600">Sin datos actualmente</span>
         )}
       </p>
