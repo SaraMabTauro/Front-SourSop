@@ -16,7 +16,7 @@ const Principal: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log('Token del usuario:', token); 
-    const socket = io(process.env.REACT_APP_SOCKET_IO_API as string, {
+    const socket = io(process.env.REACT_APP_SOCKET_IO_API || 'http://localhost:3005', {
       extraHeaders: {
         Authorization: `Bearer ${token}`
       }

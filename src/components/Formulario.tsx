@@ -34,7 +34,7 @@ const CreateUserForm: React.FC = () => {
         contraseña: password,
       };
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register` || 'http://127.0.0.1:5000', userData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register` || 'http://127.0.0.1:5000/auth/register', userData);
       console.log("Response:", response.data);
 
       if(response.status === 201) {

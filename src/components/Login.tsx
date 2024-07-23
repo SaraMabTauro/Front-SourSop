@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`|| 'http://127.0.0.1:5000',{
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`|| 'http://127.0.0.1:5000/auth/login',{
         correo: correo,
         contraseña: contraseña
       });

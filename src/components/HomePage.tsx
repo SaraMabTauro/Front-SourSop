@@ -84,6 +84,46 @@ const HomePage: React.FC = () => {
             description="Obtén datos precisos del estado de tus plantas y el entorno."
           />
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Planes y Precios</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <PriceCard
+              title="Básico"
+              price="$3,700"
+              features={[
+                "Riego automatizado",
+                "Fertilización básica",
+                "Monitoreo estándar"
+              ]}
+            />
+            <PriceCard
+              title="Intermedio"
+              price="$4,000"
+              features={[
+                "Todo lo del plan Básico",
+                "Sensores avanzados",
+                "Más parámetros de información",
+                "Alertas personalizadas"
+              ]}
+            />
+            <PriceCard
+              title="Pro"
+              price="$4,800"
+              features={[
+                "Todo lo del plan Intermedio",
+                "Generación de informes PDF",
+                "Personalización avanzada",
+                "Soporte prioritario"
+              ]}
+            />
+          </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -95,6 +135,30 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description:
     <h3 className="text-xl font-bold mb-2">{title}</h3>
     <p>{description}</p>
   </div>
+);
+
+const PriceCard: React.FC<{ title: string; price: string; features: string[] }> = ({ title, price, features }) => (
+  <div className="bg-white bg-opacity-20 p-6 rounded-xl backdrop-blur-lg text-white">
+    <h3 className="text-2xl font-bold mb-2">{title}</h3>
+    <p className="text-4xl font-bold mb-4">{price}</p>
+    <ul className="mb-6">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-center mb-2">
+          <CheckIcon className="h-5 w-5 mr-2 text-green-300" />
+          {feature}
+        </li>
+      ))}
+    </ul>
+    <button className="w-full bg-white text-green-600 font-bold py-2 px-4 rounded-full hover:bg-green-100 transition duration-300">
+      Seleccionar Plan
+    </button>
+  </div>
+);
+
+const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+  </svg>
 );
 
 export default HomePage;

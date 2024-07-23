@@ -24,7 +24,7 @@ const Historial: React.FC = () => {
   useEffect(() => {
     const fetchMediciones = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/path-to-your-api`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/historial` || 'http://127.0.0.1:5000/historial');
         setMediciones(response.data);
         setMedicionesFiltradas(response.data);
       } catch (error) {
