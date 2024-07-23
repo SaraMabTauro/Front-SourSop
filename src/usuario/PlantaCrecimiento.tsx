@@ -18,7 +18,7 @@ const Crecimiento: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const socket = io(process.env.REACT_APP_SOCKET_IO_API as string, {
+    const socket = io('https://wss.soursop.lat:3000', {
       extraHeaders: {
         Authorization: `Bearer ${token}`
       }
