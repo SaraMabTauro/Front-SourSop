@@ -1,57 +1,171 @@
+// // src/components/Crecimiento.tsx
+// import { useState, useEffect } from 'react';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+// import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
+// import io from 'socket.io-client';
+
+// interface EstadoPlanta {
+//   estado_id: number;
+//   temperatura: number;
+//   humedad: number;
+//   conductividad: number;
+// }
+
+// const Crecimiento: React.FC = () => {
+//   const [plantHealth, setPlantHealth] = useState('');
+//   const [growthData, setGrowthData] = useState<EstadoPlanta[]>([]);
+//   const [currentHeight, setCurrentHeight] = useState(0);
+//   const [heightChange, setHeightChange] = useState(0);
+
+//   useEffect(() => {
+
+//     const ruta = io(`${process.env.REACT_APP_SOCKET_IO_API}/estado_planta` || 'http://localhost:3005', {
+      
+//     });
+//   }, []);
+
+//   return (
+//     <div className="bg-white min-h-screen p-6">
+//       <h2 className="text-3xl font-bold text-gray-800 mb-8">Crecimiento de la Planta</h2>
+//       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+//         <div className="col-span-2">
+//           <div className="bg-green-50 rounded-xl p-6 shadow-sm">
+//             <h3 className="text-xl font-semibold text-gray-700 mb-4">Progreso de Crecimiento</h3>
+//             <ResponsiveContainer width="100%" height={300}>
+//               <LineChart data={growthData}>
+//                 <CartesianGrid strokeDasharray="3 3" />
+//                 <XAxis dataKey="semana" />
+//                 <YAxis />
+//                 <Tooltip />
+//                 <Line type="monotone" dataKey="altura" stroke="#10B981" strokeWidth={2} />
+//               </LineChart>
+//             </ResponsiveContainer>
+//           </div>
+//         </div>
+//         <div>
+//           <div className="bg-green-50 rounded-xl p-6 shadow-sm mb-8">
+//             <h3 className="text-xl font-semibold text-gray-700 mb-4">Datos Actuales</h3>
+//             <DataCard 
+//               title="Altura" 
+//               value={`${currentHeight} cm`} 
+//               change={`${heightChange > 0 ? '+' : ''}${heightChange} cm`} 
+//               isPositive={heightChange >= 0} 
+//             />
+//           </div>
+//           <div className="bg-green-50 rounded-xl p-6 shadow-sm">
+//             <h3 className="text-xl font-semibold text-gray-700 mb-4">Estado de Salud</h3>
+//             <div className="flex items-center justify-between">
+//               <span className="text-gray-600 font-medium">Salud General</span>
+//               <span className="text-green-600 font-semibold">{plantHealth}</span>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// interface DataCardProps {
+//   title: string;
+//   value: string;
+//   change: string;
+//   isPositive: boolean;
+// }
+
+// const DataCard: React.FC<DataCardProps> = ({ title, value, change, isPositive }) => (
+//   <div className="bg-white rounded-lg p-4 shadow-sm">
+//     <h4 className="text-sm font-medium text-gray-500 mb-2">{title}</h4>
+//     <div className="flex items-end justify-between">
+//       <span className="text-2xl font-bold text-gray-800">{value}</span>
+//       <div className={`flex items-center ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+//         {isPositive ? (
+//           <ArrowUpIcon className="w-4 h-4 mr-1" />
+//         ) : (
+//           <ArrowDownIcon className="w-4 h-4 mr-1" />
+//         )}
+//         <span className="text-sm font-medium">{change}</span>
+//       </div>
+//     </div>
+//   </div>
+// );
+
+// export default Crecimiento;
+
+
 // src/components/Crecimiento.tsx
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
-import io from 'socket.io-client';
+import axios from 'axios';
 
-
-interface GrowthData {
-  semana: string;
-  altura: number;
+interface EstadoPlanta {
+  estado_id: number;
+  temperatura: number;
+  humedad: number;
+  conductividad: number;
 }
 
 const Crecimiento: React.FC = () => {
   const [plantHealth, setPlantHealth] = useState('');
-  const [growthData, setGrowthData] = useState<GrowthData[]>([]);
+  const [growthData, setGrowthData] = useState<EstadoPlanta[]>([]);
   const [currentHeight, setCurrentHeight] = useState(0);
   const [heightChange, setHeightChange] = useState(0);
+  const [estadoProbabilidades, setEstadoProbabilidades] = useState<{ deficiente: number, intermedio: number, optimo: number } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const socket = io(process.env.REACT_APP_SOCKET_IO_API || 'http://localhost:3005', {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`
+    const fetchData = async () => {
+      try {
+        const baseUrl = process.env.REACT_APP_API_URL;
+        const response = await axios.get<EstadoPlanta[]>(`${baseUrl}/sensor/estado_planta`);
+        setGrowthData(response.data);
+
+        const ultimosDatos = response.data[response.data.length - 1];
+        const probabilidades = calcularProbabilidades(ultimosDatos);
+        setEstadoProbabilidades(probabilidades);
+        setPlantHealth(estadoDeSalud(probabilidades));
+        
+        // Aquí puedes calcular el cambio de altura y la altura actual.
+        // setCurrentHeight(...);
+        // setHeightChange(...);
+      } catch (err) {
+        console.error('Error fetching data:', err);
       }
-    });
-
-    socket.on('connect', () => {
-      console.log('Conexión Socket.IO establecida para Crecimiento');
-    });
-
-    socket.on('estado', (health: string) => {
-      setPlantHealth(health);
-    });
-
-    socket.on('growth_data', (data: GrowthData[]) => {
-      setGrowthData(data);
-      if (data.length > 0) {
-        const lastWeek = data[data.length - 1];
-        setCurrentHeight(lastWeek.altura);
-        if (data.length > 1) {
-          const previousWeek = data[data.length - 2];
-          setHeightChange(lastWeek.altura - previousWeek.altura);
-        }
-      }
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Conexión Socket.IO cerrada para Crecimiento');
-    });
-
-    return () => {
-      socket.disconnect();
     };
+
+    fetchData();
   }, []);
+
+  const calcularProbabilidades = (data: EstadoPlanta) => {
+    // Aquí debes definir tu lógica de cálculo de probabilidades basándote en los datos del estado de la planta
+    // Este es un ejemplo simple:
+    const { temperatura, humedad, conductividad } = data;
+    let deficiente = 0, intermedio = 0, optimo = 0;
+
+    if (temperatura < 20 || temperatura > 30) deficiente += 1;
+    else if (temperatura >= 20 && temperatura <= 25) optimo += 1;
+    else intermedio += 1;
+
+    if (humedad < 40 || humedad > 60) deficiente += 1;
+    else if (humedad >= 40 && humedad <= 50) optimo += 1;
+    else intermedio += 1;
+
+    if (conductividad < 1 || conductividad > 3) deficiente += 1;
+    else if (conductividad >= 1.5 && conductividad <= 2.5) optimo += 1;
+    else intermedio += 1;
+
+    const total = deficiente + intermedio + optimo;
+    return {
+      deficiente: (deficiente / total) * 100,
+      intermedio: (intermedio / total) * 100,
+      optimo: (optimo / total) * 100,
+    };
+  };
+
+  const estadoDeSalud = (probabilidades: { deficiente: number, intermedio: number, optimo: number }) => {
+    if (probabilidades.optimo >= 50) return 'Óptimo';
+    if (probabilidades.intermedio >= 50) return 'Intermedio';
+    return 'Deficiente';
+  };
 
   return (
     <div className="bg-white min-h-screen p-6">
@@ -63,12 +177,14 @@ const Crecimiento: React.FC = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={growthData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="semana" />
+                <XAxis dataKey="estado_id" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="altura" stroke="#10B981" strokeWidth={2} />
+                <Line type="monotone" dataKey="temperatura" stroke="#10B981" strokeWidth={2} />
+                <Line type="monotone" dataKey="humedad" stroke="#8884d8" strokeWidth={2} />
+                <Line type="monotone" dataKey="conductividad" stroke="#82ca9d" strokeWidth={2} />
               </LineChart>
-            </ResponsiveContainer>
+              </ResponsiveContainer>
           </div>
         </div>
         <div>
@@ -87,6 +203,13 @@ const Crecimiento: React.FC = () => {
               <span className="text-gray-600 font-medium">Salud General</span>
               <span className="text-green-600 font-semibold">{plantHealth}</span>
             </div>
+            {estadoProbabilidades && (
+              <div className="mt-4">
+                <p>Deficiente: {estadoProbabilidades.deficiente.toFixed(2)}%</p>
+                <p>Intermedio: {estadoProbabilidades.intermedio.toFixed(2)}%</p>
+                <p>Óptimo: {estadoProbabilidades.optimo.toFixed(2)}%</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

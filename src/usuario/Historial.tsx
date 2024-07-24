@@ -6,11 +6,8 @@ import { FaCalendarAlt, FaSearch } from 'react-icons/fa';
 interface Medicion {
   id: number;
   fecha: string;
-  pH: number;
   humedad: number;
   temperatura: number;
-  potasio: number;
-  nitrogeno: number;
   conductividad: number;
   aguaConsumida: number;
   fertilizanteConsumido: number;
@@ -67,11 +64,8 @@ const Historial: React.FC = () => {
           <thead className="bg-green-500 text-white">
             <tr>
               <th className="py-3 px-4 text-left">Fecha</th>
-              <th className="py-3 px-4 text-left">pH</th>
               <th className="py-3 px-4 text-left">Humedad</th>
               <th className="py-3 px-4 text-left">Temperatura</th>
-              <th className="py-3 px-4 text-left">Potasio</th>
-              <th className="py-3 px-4 text-left">Nitrógeno</th>
               <th className="py-3 px-4 text-left">Conductividad</th>
               <th className="py-3 px-4 text-left">Agua Consumida</th>
               <th className="py-3 px-4 text-left">Fertilizante Consumido</th>
@@ -81,11 +75,8 @@ const Historial: React.FC = () => {
             {medicionesFiltradas.map((medicion) => (
               <tr key={medicion.id} className="border-b border-gray-200 hover:bg-gray-50">
                 <td className="py-3 px-4 whitespace-nowrap"><FaCalendarAlt className="inline mr-2 text-green-500" />{medicion.fecha}</td>
-                <td className="py-3 px-4 whitespace-nowrap">{medicion.pH}</td>
                 <td className="py-3 px-4 whitespace-nowrap">{medicion.humedad}%</td>
                 <td className="py-3 px-4 whitespace-nowrap">{medicion.temperatura}°C</td>
-                <td className="py-3 px-4 whitespace-nowrap">{medicion.potasio} ppm</td>
-                <td className="py-3 px-4 whitespace-nowrap">{medicion.nitrogeno} ppm</td>
                 <td className="py-3 px-4 whitespace-nowrap">{medicion.conductividad} mS/cm</td>
                 <td className="py-3 px-4 whitespace-nowrap">{medicion.aguaConsumida} L</td>
                 <td className="py-3 px-4 whitespace-nowrap">{medicion.fertilizanteConsumido} mL</td>
