@@ -11,8 +11,8 @@ interface NivelAguaData {
 }
 
 interface FlujoAguaData {
-  litrosPorMinuto: number;
-  totalConsumido: number;
+  flow_rate_lpm: number;
+  total_liters: number;
 }
 
 const MateriasPrimas: React.FC = () => {
@@ -67,16 +67,14 @@ const MateriasPrimas: React.FC = () => {
       console.log('Datos de flujo de agua recibidos:', data);
       setFlowRate(data);
 
-      // Restar el agua consumida al nivel actual
+      // Calculate the new water level based on total liters consumed
       setWaterLevel(prevLevel => {
-        if (prevLevel === 0 || data.litrosPorMinuto === 0) return prevLevel;
+        const { flow_rate_lpm, total_liters } = data;
+        if (prevLevel === 0 || flow_rate_lpm === 0) return prevLevel;
 
-        const litrosConsumidos = data.litrosPorMinuto;
-        const newLevel = prevLevel - (litrosConsumidos / TANK_CAPACITY_LITERS) * 100;
-
-        const finalLevel = Math.max(newLevel, 0); // Asegurarse de que el nivel no sea menor que 0
-        localStorage.setItem('waterLevel', finalLevel.toString());
-        return finalLevel;
+        const newLevel = Math.max(prevLevel - (total_liters / TANK_CAPACITY_LITERS) * 100, 0); // Ensure the level does not go below 0
+        localStorage.setItem('waterLevel', newLevel.toString());
+        return newLevel;
       });
     });
 
@@ -123,8 +121,8 @@ const MateriasPrimas: React.FC = () => {
             <BeakerIcon className="h-6 w-6 text-red-500 mr-2" />
             <div>
               <h3 className="text-lg font-medium text-gray-700">Flujo de Agua</h3>
-              <p className="text-gray-500">Litros por Minuto: {flowRate ? flowRate.litrosPorMinuto : 'Cargando...'}</p>
-              <p className="text-gray-500">Total Consumido: {flowRate ? flowRate.totalConsumido : 'Cargando...'}</p>
+              <p className="text-gray-500">Litros por Minuto: {flowRate ? flowRate.flow_rate_lpm : 'Cargando...'}</p>
+              <p className="text-gray-500">Total Consumido: {flowRate ? flowRate.total_liters : 'Cargando...'}</p>
             </div>
           </div>
         </div>

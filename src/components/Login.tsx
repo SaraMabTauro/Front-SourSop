@@ -31,7 +31,6 @@ const Login: React.FC = () => {
           nombre: usuario.nombre,
           apellidos: usuario.apellidos
         }
-
         login(user);
         localStorage.setItem('token', token);
 
