@@ -3,6 +3,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaCalendarAlt, FaSearch } from 'react-icons/fa';
 
+interface SensorData {
+  fecha: string;
+  temperatura: number;
+  humedad: number;
+  conductividad: number;
+}
+
+interface ConsumoData {
+  fecha: string;
+  cantidad: number;
+  litros_por_minuto: number;
+}
+
 interface Medicion {
   id: number;
   fecha: string;
@@ -21,9 +34,29 @@ const Historial: React.FC = () => {
   useEffect(() => {
     const fetchMediciones = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/historial` || 'http://127.0.0.1:5000/historial');
-        setMediciones(response.data);
-        setMedicionesFiltradas(response.data);
+        const baseUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+        const [sensorRes, aguaRes, fertilizanteRes] = await Promise.all([
+          axios.get<SensorData[]>(`${baseUrl}/sensor/estado_planta`),
+          axios.get<ConsumoData[]>(`${baseUrl}/sensor/consumo_agua`),
+          axios.get<ConsumoData[]>(`${baseUrl}/sensor/consumo_fertilizante`),
+        ]);
+
+        const medicionesCombinadas = sensorRes.data.map((sensor, index) => {
+          const agua = aguaRes.data[index];
+          const fertilizante = fertilizanteRes.data[index];
+          return {
+            id: index,
+            fecha: sensor.fecha,
+            humedad: sensor.humedad,
+            temperatura: sensor.temperatura,
+            conductividad: sensor.conductividad,
+            aguaConsumida: agua ? agua.cantidad : 0,
+            fertilizanteConsumido: fertilizante ? fertilizante.cantidad : 0,
+          };
+        });
+
+        setMediciones(medicionesCombinadas);
+        setMedicionesFiltradas(medicionesCombinadas);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
