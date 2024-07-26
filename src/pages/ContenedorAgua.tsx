@@ -13,7 +13,7 @@ const WaterTank: React.FC<WaterTankProps> = ({ level }) => {
   const waterAnimation = useSpring({
     from: { y: 100 },
     to: { y: 100 - level },
-    config: config.wobbly, // Configuración para hacer el movimiento más orgánico
+    config: config.wobbly,
   });
 
   // Cambio de color cuando el nivel es menor a 50%
@@ -51,7 +51,7 @@ const WaterTank: React.FC<WaterTankProps> = ({ level }) => {
   return (
     <div className="relative w-80 h-80 p-4"> {/* Contenedor más grande con padding */}
       <svg viewBox="0 0 400 400" className="absolute inset-0 w-full h-full rounded-md">
-        <rect x="-8" y="0" width="100%" height="100%" fill="#e4eaf7" />
+        <rect x="0" y="0" width="100%" height="100%" fill="#e4eaf7" />
         <animated.path
           d={waterAnimation.y.to(() => generateWave(time))}
           fill={fillColor}
